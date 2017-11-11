@@ -1,4 +1,4 @@
-# Project Name #
+# JeoParty! #
 
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
@@ -19,26 +19,46 @@ Once the project moves into development, the press release can be used as a touc
 ## Heading ##
   > Name the product in a way the reader (i.e. your target customers) will understand.
 
+  JeoParty!
+
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+
+  A simple Jeopardy trivia game.
 
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
 
+  This app will give you a random Jeopardy clue, in varying difficulty and category. A correct answer will increase a user's score which will be saved so you can come back and play more later.
+
 ## Problem ##
   > Describe the problem your product solves.
+
+  There are not enough Jeopardy apps out there.
 
 ## Solution ##
   > Describe how your product elegantly solves the problem.
 
+  This app will be simple enough to use anywhere at any time. Great while on long distance drives!
+
 ## Quote from You ##
   > A quote from a spokesperson in your company.
+
+  Do you love Jeopardy? Do you wish you could play Jeopardy anywhere, anytime? Do you want to play in a completely unstructured and miscellaneous way? Well, Oh boy! Have I got something for you... Introducing JeoParty! The app that finds actual Jeopardy questions and brings them straight to the comfort of your own computer!
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
 
+  It is so easy to get started. All you have to do to save your score is enter a username! To practice your JeoParty!, and play anonymously before attempting to increase your score.
+
 ## Customer Quote ##
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
 
+  "Wow! I can'nt imagine another day without JeoParty! It's so entertaining. It most certainly was not made in a weekend." 
+    - Satisfied Customer
+
 ## Closing and Call to Action ##
   > Wrap it up and give pointers where the reader should go next.
+
+  Yes.
+

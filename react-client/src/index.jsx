@@ -1,35 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Nav from './components/Nav.jsx';
+import ScoreBoard from './components/ScoreBoard.jsx';
+import ScoreBoardEntry from './components/ScoreBoardEntry.jsx';
+import Clue from './components/Clue.jsx';
 import $ from 'jquery';
-import List from './components/List.jsx';
+import data from '../../sampleData/fakeNews';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      items: []
+      user: {
+        name: 'Aric',
+        score: 400
+      },
+      highScores: data.scoreTable,
+      question: data.question[0]
     }
   }
 
   componentDidMount() {
-    $.ajax({
-      url: '/items', 
-      success: (data) => {
-        this.setState({
-          items: data
-        })
-      },
-      error: (err) => {
-        console.log('err', err);
-      }
-    });
   }
 
   render () {
-    return (<div>
-      <h1>Item List</h1>
-      <List items={this.state.items}/>
-    </div>)
+    return (
+      <div>
+        <Nav user={this.state.user}/>
+        <ScoreBoard highScores={this.state.highScores}/>
+        <Clue question={this.state.question}/>
+      </div>)
   }
 }
 
