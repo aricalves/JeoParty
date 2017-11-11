@@ -1,22 +1,19 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var items = require('../database-mongo');
+const express = require('express');
+const bodyParser = require('body-parser');
+const rp = require('request-promise');
+const users = require('../database-mongo');
 
-var app = express();
+const app = express();
 
 app.use(express.static(__dirname + '/../react-client/dist'));
 
-app.get('/items', function (req, res) {
-  items.selectAll(function(err, data) {
-    if(err) {
-      res.sendStatus(500);
-    } else {
-      res.json(data);
-    }
-  });
+app.get('/users', function (req, res) {
+
 });
+
 
 app.listen(3000, function() {
   console.log('3000ノ( ゜-゜ノ)');
 });
+
 

@@ -5,6 +5,7 @@ import ScoreBoard from './components/ScoreBoard.jsx';
 import ScoreBoardEntry from './components/ScoreBoardEntry.jsx';
 import Clue from './components/Clue.jsx';
 import $ from 'jquery';
+import axios from 'axios';
 import data from '../../sampleData/fakeNews';
 
 class App extends React.Component {
@@ -21,7 +22,24 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    this.getRandomQuestion();
   }
+
+  getRandomQuestion() {
+    return axios.get('http://jservice.io/api/random')
+      .then(response => response.data[0])
+      .then(question => {
+        this.setState({
+          question: question
+        });
+      })
+      .catch(err => console.log(err))
+  }
+
+  /* TODO: 
+    username input/ score updating
+    get new question after one has been answered
+  */
 
   render () {
     return (
