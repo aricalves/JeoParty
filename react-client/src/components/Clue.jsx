@@ -9,7 +9,7 @@ const Clue = (props) => (
     <input></input>
     <button>Go!</button>
     <p>Aired: {moment(props.question.airdate).format("MMM Do, YYYY")}</p>
-    <img src="" alt="Suck it, Trebek"/>
+    <img src='trebek.png' height='400' width='400' alt='Suck it, Trebek'/>
   </div>
 )
 

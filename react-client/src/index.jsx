@@ -2,9 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Nav from './components/Nav.jsx';
 import ScoreBoard from './components/ScoreBoard.jsx';
-import ScoreBoardEntry from './components/ScoreBoardEntry.jsx';
 import Clue from './components/Clue.jsx';
-import $ from 'jquery';
 import axios from 'axios';
 import data from '../../sampleData/fakeNews';
 
@@ -19,10 +17,14 @@ class App extends React.Component {
       highScores: data.scoreTable,
       question: data.question[0]
     }
+
+    this.getRandomQuestion = this.getRandomQuestion.bind(this);
+    this.getUserInfoByName = this.getUserInfoByName.bind(this);
   }
 
   componentDidMount() {
     this.getRandomQuestion();
+    this.getUserInfoByName('andy');
   }
 
   getRandomQuestion() {
@@ -34,6 +36,17 @@ class App extends React.Component {
         });
       })
       .catch(err => console.log(err))
+  }
+
+  getUserInfoByName(name) {
+   console.log('calling server')
+    axios.get('/users', {
+      params: {
+        name: name
+      }
+    })
+      .then(res => console.log(res))
+      .catch(er => console.log(err))
   }
 
   /* TODO: 

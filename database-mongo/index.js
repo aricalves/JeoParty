@@ -19,4 +19,26 @@ const userSchema = mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-let test = new User({score: 100, name: 'Aric'});
+module.exports.insertNewUser = function(name) {
+  const user = new User({name: name, score: 0});
+  return user.save();
+}
+
+// insertNewUser('aric')
+//   .then(() => {console.log('new user added')})
+//   .catch(err => console.log(err))
+
+module.exports.updateUserScore = function(conditions, cb) {
+  User.update({name: conditions.name}, {score: conditions.score + 100}, null, cb);
+}
+
+const getUsersInfo = function() {
+  return User.find();
+}
+
+module.exports.getUser = function(name) {
+  return getUsersInfo()
+    .then(results => results.filter(user => user.name === name))
+    .then(user => user)
+    .catch(err => console.log('error', err))
+}
