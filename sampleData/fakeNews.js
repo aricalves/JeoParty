@@ -1,14 +1,9 @@
 module.exports.scoreTable = [
-  {name: 'Aric',score: 470},
-  {name: 'Justin',score: 50},
-  {name: 'Beth',score: 90},
-  {name: 'Andy',score: 750},
-  {name: 'Kory',score: 78},
-  {name: 'Frisbee',score: 922},
-  {name: 'Allen',score: 420},
-  {name: 'Easak',score: 500},
-  {name: 'Gui',score: 100},
-  {name: 'Doug',score: 1000}
+  {name: '',score: 0},
+  {name: '',score: 0},
+  {name: '',score: 0},
+  {name: '',score: 0},
+  {name: '',score: 0}
 ]
 
 module.exports.question = [

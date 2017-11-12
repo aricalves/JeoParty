@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test', { useMongoClient: true });
+mongoose.connect('mongodb://localhost/Users', { useMongoClient: true });
 mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;
@@ -24,7 +24,7 @@ module.exports.insertNewUser = function(name) {
   return user.save();
 }
 
-// insertNewUser('aric')
+// module.exports.insertNewUser('')
 //   .then(() => {console.log('new user added')})
 //   .catch(err => console.log(err))
 
@@ -41,4 +41,12 @@ module.exports.getUser = function(name) {
     .then(results => results.filter(user => user.name === name))
     .then(user => user)
     .catch(err => console.log('error', err))
+}
+
+module.exports.populateScoreBoard = function() {
+  return User.find()
+    .sort('-score')
+    .limit(5)
+    .then(res => res)
+    .catch(err => err)
 }

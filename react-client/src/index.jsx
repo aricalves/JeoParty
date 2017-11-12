@@ -10,21 +10,22 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      user: {
-        name: 'Aric',
-        score: 400
-      },
+      score: 0,
+      user: 'aric',
       highScores: data.scoreTable,
       question: data.question[0]
     }
 
     this.getRandomQuestion = this.getRandomQuestion.bind(this);
     this.getUserInfoByName = this.getUserInfoByName.bind(this);
+    this.getScoreBoard = this.getScoreBoard.bind(this);
+    this.setUser = this.setUser.bind(this);
   }
 
   componentDidMount() {
     this.getRandomQuestion();
-    this.getUserInfoByName('andy');
+    this.getScoreBoard();
+    this.getUserInfoByName(this.state.user);
   }
 
   getRandomQuestion() {
@@ -38,15 +39,28 @@ class App extends React.Component {
       .catch(err => console.log(err))
   }
 
-  getUserInfoByName(name) {
-   console.log('calling server')
-    axios.get('/users', {
-      params: {
-        name: name
-      }
+  getScoreBoard() {
+    axios.get('/scores')
+      .then(topScores => this.setState({
+        highScores: topScores.data
+      }))
+      .catch(err => console.log(err));
+  }
+
+  setUser(e) {
+    console.log(e.target)
+    this.setState({
+      user: e.target.value
     })
-      .then(res => console.log(res))
-      .catch(er => console.log(err))
+    .then(getUserInfoByName(this.state.user))
+  }
+
+  getUserInfoByName(name) {
+    axios.get('/users', { params: { name: name }})
+      .then((res) => this.setState({
+        score: res.data[0].score
+      }))
+      .catch(err => console.log(err))
   }
 
   /* TODO: 
@@ -57,7 +71,7 @@ class App extends React.Component {
   render () {
     return (
       <div>
-        <Nav user={this.state.user}/>
+        <Nav score={this.state.score} user={this.state.user} onSubmit={this.findOrCreateUser} onChange={this.setUser}/>
         <ScoreBoard highScores={this.state.highScores}/>
         <Clue question={this.state.question}/>
       </div>)
