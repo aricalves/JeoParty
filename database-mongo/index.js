@@ -14,33 +14,34 @@ db.once('open', function() {
 
 const userSchema = mongoose.Schema({
   score: Number,
-  name: String
+  name: { type: String, unique: true }
 });
 
 const User = mongoose.model('User', userSchema);
 
-module.exports.insertNewUser = function(name) {
-  const user = new User({name: name, score: 0});
-  return user.save();
-}
-
-// module.exports.insertNewUser('')
-//   .then(() => {console.log('new user added')})
-//   .catch(err => console.log(err))
-
-module.exports.updateUserScore = function(conditions, cb) {
-  User.update({name: conditions.name}, {score: conditions.score + 100}, null, cb);
-}
-
 const getUsersInfo = function() {
   return User.find();
 }
-
 module.exports.getUser = function(name) {
   return getUsersInfo()
     .then(results => results.filter(user => user.name === name))
     .then(user => user)
     .catch(err => console.log('error', err))
+}
+module.exports.insertNewUser = function(name) {
+  const user = new User({name: name, score: 0});
+  return user.save();
+}
+
+module.exports.updateUserScore = function(name, change) {
+  User.find({name: name})
+    .then((userInfo) => {
+      change = change += userInfo[0].score
+      console.log(change)
+      // return User.update({name: name}, {score: change})
+    })
+    .then(() => console.log(`${name}'s score updated`))
+    .catch(err => console.log(err));
 }
 
 module.exports.populateScoreBoard = function() {

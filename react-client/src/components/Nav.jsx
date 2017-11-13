@@ -4,10 +4,10 @@ const Nav = (props) => (
   <div>
     <span id="score">Your Score: {props.score}</span>
     <h4 id="logo">JeoParty!</h4>
-    <form onSubmit={props.findOrCreateUser}>
+    <form onSubmit={props.onSubmit}>
       <label>
         Name:
-        <input type="text" value={props.user} onChange={props.setUser} />
+        <input type="text" onChange={props.onChange} />
       </label>
     </form>
   </div>

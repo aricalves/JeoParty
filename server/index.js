@@ -18,9 +18,14 @@ app.get('/scores', function(req, res) {
     .catch(err => res.send(err));
 });
 
-app.post('/users', function(req, res) {
-  console.log('posting to users')
-  res.end()
+app.post('/scores/:name/:change', function(req, res) {
+  users.updateUserScore(req.params.name, req.params.change);
+});
+
+app.post('/users/:name', function(req, res) {
+  users.insertNewUser(req.params.name)
+    .then(() => res.send(`${req.params.name} added`))
+    .catch(err => res.send(err));
 });
 
 app.listen(3000, function() {

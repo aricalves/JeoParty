@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 import Nav from './components/Nav.jsx';
 import ScoreBoard from './components/ScoreBoard.jsx';
 import Clue from './components/Clue.jsx';
-import axios from 'axios';
 import data from '../../sampleData/fakeNews';
 
 class App extends React.Component {
@@ -11,7 +11,7 @@ class App extends React.Component {
     super(props);
     this.state = { 
       score: 0,
-      user: 'aric',
+      user: '',
       highScores: data.scoreTable,
       question: data.question[0]
     }
@@ -20,12 +20,12 @@ class App extends React.Component {
     this.getUserInfoByName = this.getUserInfoByName.bind(this);
     this.getScoreBoard = this.getScoreBoard.bind(this);
     this.setUser = this.setUser.bind(this);
+    this.verifyAnswer = this.verifyAnswer.bind(this);
   }
 
   componentDidMount() {
     this.getRandomQuestion();
     this.getScoreBoard();
-    this.getUserInfoByName(this.state.user);
   }
 
   getRandomQuestion() {
@@ -47,12 +47,18 @@ class App extends React.Component {
       .catch(err => console.log(err));
   }
 
+  updateUserScore(name, change) {
+    axios.post(`/scores/${name}/${change}`)
+      .then(() => this.getScoreBoard())
+      .catch(err => console.log(err))
+  }
+
   setUser(e) {
-    console.log(e.target)
     this.setState({
       user: e.target.value
     })
-    .then(getUserInfoByName(this.state.user))
+
+    setTimeout(() => this.getUserInfoByName(this.state.user), 1000)
   }
 
   getUserInfoByName(name) {
@@ -60,21 +66,30 @@ class App extends React.Component {
       .then((res) => this.setState({
         score: res.data[0].score
       }))
-      .catch(err => console.log(err))
+      .catch(err => {
+        if (name === this.state.user) {
+          axios.post(`/users/${name}`)
+            .then(res => console.log(res.data))
+            .catch(err => {throw err});
+        }
+      })
+      .catch(err => {throw err});
   }
 
-  /* TODO: 
-    username input/ score updating
-    get new question after one has been answered
-  */
+  verifyAnswer(attempt) {
+    if (attempt === this.state.question.answer) {
+      this.updateUserScore(this.state.user, this.state.question.value)
+    }
+  }
 
   render () {
     return (
       <div>
-        <Nav score={this.state.score} user={this.state.user} onSubmit={this.findOrCreateUser} onChange={this.setUser}/>
+        <Nav score={this.state.score} user={this.state.user} onChange={this.setUser}/>
         <ScoreBoard highScores={this.state.highScores}/>
-        <Clue question={this.state.question}/>
-      </div>)
+        <Clue question={this.state.question} onSubmit={(e) => this.verifyAnswer(e.target.value)} onClick={this.getRandomQuestion} />
+      </div>
+    )
   }
 }
 
