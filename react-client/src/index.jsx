@@ -13,7 +13,8 @@ class App extends React.Component {
       score: 0,
       user: '',
       highScores: data.scoreTable,
-      question: data.question[0]
+      question: data.question[0],
+      hasCorrectAnswer: false
     }
 
     this.getRandomQuestion = this.getRandomQuestion.bind(this);
@@ -52,6 +53,9 @@ class App extends React.Component {
     axios.post(`/scores/${name}/${change}`)
       .then(() => this.getScoreBoard())
       .then(() => this.getUserInfoByName(name))
+      .then(() => this.setState({
+        hasCorrectAnswer: true
+      }))
       .catch(err => console.log(err))
   }
 
@@ -65,9 +69,6 @@ class App extends React.Component {
 
   getUserInfoByName(name) {
     axios.get('/users', { params: { name: name }})
-      .then(res => {console.log(res)
-        return res
-      })
       .then((res) => this.setState({
         score: res.data[0].score
       }))
@@ -83,13 +84,17 @@ class App extends React.Component {
 
   verifyAnswer(attempt) {
     if (attempt === this.state.question.answer) {
-      this.updateUserScore(this.state.user, this.state.question.value)
+      this.updateUserScore(this.state.user, this.state.question.value);
     }
   }
 
   rejectQuestion() {
-    Promise.resolve(this.updateUserScore(this.state.user, -this.state.question.value))
-      .then(() => this.getRandomQuestion())
+    if (!this.state.hasCorrectAnswer) {
+      Promise.resolve(this.updateUserScore(this.state.user, -this.state.question.value))
+        .then(() => this.getRandomQuestion())
+    } else {
+      this.getRandomQuestion();
+    }
   }
 
   render () {
