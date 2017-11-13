@@ -21,6 +21,7 @@ class App extends React.Component {
     this.getScoreBoard = this.getScoreBoard.bind(this);
     this.setUser = this.setUser.bind(this);
     this.verifyAnswer = this.verifyAnswer.bind(this);
+    this.rejectQuestion = this.rejectQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -50,6 +51,7 @@ class App extends React.Component {
   updateUserScore(name, change) {
     axios.post(`/scores/${name}/${change}`)
       .then(() => this.getScoreBoard())
+      .then(() => this.getUserInfoByName(name))
       .catch(err => console.log(err))
   }
 
@@ -63,6 +65,9 @@ class App extends React.Component {
 
   getUserInfoByName(name) {
     axios.get('/users', { params: { name: name }})
+      .then(res => {console.log(res)
+        return res
+      })
       .then((res) => this.setState({
         score: res.data[0].score
       }))
@@ -70,7 +75,7 @@ class App extends React.Component {
         if (name === this.state.user) {
           axios.post(`/users/${name}`)
             .then(res => console.log(res.data))
-            .catch(err => {throw err});
+            .catch(err => console.log(err));
         }
       })
       .catch(err => {throw err});
@@ -82,12 +87,17 @@ class App extends React.Component {
     }
   }
 
+  rejectQuestion() {
+    Promise.resolve(this.updateUserScore(this.state.user, -this.state.question.value))
+      .then(() => this.getRandomQuestion())
+  }
+
   render () {
     return (
       <div>
         <Nav score={this.state.score} user={this.state.user} onChange={this.setUser}/>
         <ScoreBoard highScores={this.state.highScores}/>
-        <Clue question={this.state.question} onSubmit={(e) => this.verifyAnswer(e.target.value)} onClick={this.getRandomQuestion} />
+        <Clue question={this.state.question} onSubmit={(e) => this.verifyAnswer(e.target.value)} onClick={this.rejectQuestion} />
       </div>
     )
   }

@@ -20,6 +20,7 @@ app.get('/scores', function(req, res) {
 
 app.post('/scores/:name/:change', function(req, res) {
   users.updateUserScore(req.params.name, req.params.change);
+  res.end();
 });
 
 app.post('/users/:name', function(req, res) {
